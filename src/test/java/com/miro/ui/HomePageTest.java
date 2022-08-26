@@ -1,59 +1,39 @@
 package com.miro.ui;
 
 import com.miro.ui.domain.Board;
-import com.miro.ui.pages.BoardEditorPage;
 import com.miro.ui.pages.HomePage;
-import com.miro.ui.pages.WelcomePage;
+import com.miro.ui.steps.Steps;
 import com.miro.utils.Utils;
+import io.qameta.allure.Story;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+@Story("Home page checks")
 public class HomePageTest extends BaseTest {
 
-    @Test
+    @Test(description = "Board deleting test", dependsOnMethods = "createBoardTest")
     public void deleteBoardTest() {
-        String email = "likursen@gmail.com";
-        String password = "dimak124578";
-        new WelcomePage()
-                .openPage()
-                .clickLogin()
-                .typeLogin(email)
-                .typePassword(password)
-                .clickSignIn();
-        HomePage homePage = new HomePage().closeNewsPopUp();
+        Steps steps = new Steps();
+        steps.authorization(LOGIN, PASSWORD);
+        HomePage homePage = new HomePage();
         Board copyOfDeletedBoard = homePage.getFirstBoard();
         homePage.deleteBoard(copyOfDeletedBoard);
-        boolean isNotificationDeleteDisplayed = homePage.isNotificationDeleteDisplayed();
         boolean isDeletedBoardPresent = homePage.findBoardByName(copyOfDeletedBoard);
-        Assert.assertTrue(isNotificationDeleteDisplayed);
-        Assert.assertFalse(isDeletedBoardPresent);
+        Assert.assertFalse(isDeletedBoardPresent, "Created board present");
     }
 
-    @Test
+    @Test(description = "Board creating test")
     public void createBoardTest() {
-        String email = "likursen@gmail.com";
-        String password = "dimak124578";
+        Steps steps = new Steps();
         String boardTitle = Utils.generateRandomSting();
         String boardDescription = Utils.generateRandomSting();
         Board expectedBoard = new Board(boardTitle, boardDescription);
-        new WelcomePage()
-                .openPage()
-                .clickLogin()
-                .typeLogin(email)
-                .typePassword(password)
-                .clickSignIn();
-        BoardEditorPage boardEditorPage = new HomePage()
-                .closeNewsPopUp()
-                .clickCreateBoard()
-                .closePopUp()
-                .fillBoardTitleAndDescription(expectedBoard.getTitle(), expectedBoard.getDescription());
-        boolean isNotificationSaveDisplayed = boardEditorPage.isNotificationSaveDisplayed();
-        HomePage homePage = boardEditorPage.clickLogo();
+        HomePage homePage = steps.authorization(LOGIN, PASSWORD)
+                .createBoardAndReturnToHomePage(expectedBoard);
         boolean isCreatedBoardPresent = homePage.findBoardByName(expectedBoard);
+        Assert.assertTrue(isCreatedBoardPresent, "Created board absent");
         Board actualBoard = homePage.openBoardDetail(expectedBoard)
                 .generateBoard();
-        Assert.assertTrue(isNotificationSaveDisplayed);
-        Assert.assertTrue(isCreatedBoardPresent);
-        Assert.assertEquals(actualBoard, expectedBoard);
+        Assert.assertEquals(actualBoard, expectedBoard, "Expected and actual board (name and description) not equals");
     }
 }

@@ -1,34 +1,52 @@
 package com.miro.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.miro.api.payloads.DefaultBoardPayload;
+import com.miro.api.pojo.BoardPojo;
+import com.miro.api.requests.DefaultCreateBoardPayload;
+import com.miro.utils.UtilsAPI;
 import com.miro.utils.Utils;
+import com.miro.utils.annotation.TestAPI;
+import io.qameta.allure.Story;
 import io.restassured.RestAssured;
+import io.restassured.response.ValidatableResponse;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+@TestAPI
+@Story("Create board checks")
 public class CreateBoardTest extends BaseTest {
 
-    @Test
-    public void createBoard() throws JsonProcessingException {
-        DefaultBoardPayload boardPayload = new DefaultBoardPayload().setName(Utils.generateRandomSting());
-        ObjectMapper objectMapper = new ObjectMapper();
-        String createBoardJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(boardPayload);
-        RestAssured.baseURI = "https://api.miro.com";
-        String actualName = RestAssured.given()
+    @Test(description = "test create board")
+    public void createBoardTest() {
+        String requestBoardName = Utils.generateRandomSting();
+        DefaultCreateBoardPayload boardPayload = new DefaultCreateBoardPayload()
+                .setName(requestBoardName);
+        LOGGER.info("Request board name: " + requestBoardName);
+        String createBoardJson = UtilsAPI.generateJsonFromObject(boardPayload);
+        ValidatableResponse response = RestAssured.given()
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json")
-                .header("Authorization", bearer)
+                .header("Authorization", BEARER)
                 .body(createBoardJson)
+                .log()
+                .everything()
                 .when()
                 .post("/v2/boards")
                 .then()
                 .assertThat()
                 .statusCode(201)
-                .extract()
+                .log()
+                .everything();
+        String responseBoardName = response.extract()
                 .jsonPath()
-                .getString("name");
-        Assert.assertEquals(actualName, boardPayload.getName());
+                .get("name");
+        LOGGER.info("Response board name: " + responseBoardName);
+        Assert.assertEquals(responseBoardName, requestBoardName, "Board name in request and response not equals");
+        String responseBoardId = response.extract()
+                .jsonPath()
+                .get("id");
+        LOGGER.info("Expected board ID: " + responseBoardId);
+        BoardPojo boardByID = UtilsAPI.getBoardByID(responseBoardId);
+        LOGGER.info("Expected ID: " + responseBoardId);
+        Assert.assertEquals(boardByID.getName(), requestBoardName, "Actual and expected board names not equals");
     }
 }

@@ -2,10 +2,9 @@ package com.miro.ui.pages;
 
 
 import com.miro.ui.webDriver.WebDriverSingleton;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.miro.utils.RootLogger;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,7 +17,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public abstract class BasePage {
-    protected static final Logger logger = LogManager.getLogger();
+    protected static final Logger logger = RootLogger.getRootLogger();
     protected static final Duration WAIT_TIMEOUT_SECONDS = Duration.ofSeconds(10);
     protected static final CharSequence[] CHAR_SEQUENCES_DELETE_ALL = {Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE};
     protected WebDriver webDriver = WebDriverSingleton.getWebDriver();
@@ -41,6 +40,11 @@ public abstract class BasePage {
                 .until(ExpectedConditions.elementToBeClickable(webElement));
     }
 
+    protected void waitForInvisibilityOfElement(WebElement webElement) {
+        new WebDriverWait(webDriver, WAIT_TIMEOUT_SECONDS)
+                .until(ExpectedConditions.invisibilityOf(webElement));
+    }
+
     protected void waitForVisibilityOfElement(WebElement webElement) {
         new WebDriverWait(webDriver, WAIT_TIMEOUT_SECONDS)
                 .until(ExpectedConditions.visibilityOf(webElement));
@@ -52,23 +56,6 @@ public abstract class BasePage {
                 .perform();
         waitForElementToBeClickable(webElement);
         webElement.click();
-    }
-
-    protected boolean isElementDisplayed(WebElement webElement) {
-        try {
-            return webElement.isDisplayed();
-        } catch (NoSuchElementException exception) {
-            return false;
-        }
-    }
-
-    //todo obrabotat
-    protected void closePopUp(WebElement buttonPopUpClose) {
-        try {
-            buttonPopUpClose.click();
-        } catch (NoSuchElementException exception) {
-            logger.warn("Pop up not found");
-        }
     }
 
     protected void sleep(int millis) {

@@ -23,8 +23,7 @@ public class LoginPage extends BasePage {
     @FindBy(xpath = "//div[@id='loginError']")
     private WebElement loginError;
 
-    public LoginPage(){
-        logger.info("Open login page");
+    public LoginPage() {
     }
 
     public LoginPage typeLogin(String login) {

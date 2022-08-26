@@ -9,6 +9,6 @@ public class Utils {
     }
 
     public static String generateRandomEmail() {
-        return RandomStringUtils.randomAlphabetic(8)+"@mail.org";
+        return RandomStringUtils.randomAlphabetic(8) + "@mail.org";
     }
 }

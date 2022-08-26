@@ -15,13 +15,16 @@ public class EditBoardSettingsPopUp extends BasePage {
     @FindBy(xpath = "//textarea[@data-testid='board-info-modal-description']")
     private WebElement inputDescription;
 
+    @FindBy(xpath = "//div[@class='md-content']")
+    private WebElement editBoardSettingsPopUp;
+
     public EditBoardSettingsPopUp typeTitle(String title) {
         clearAndTypeToField(inputTitle, title);
         logger.info("Clear and type title: " + title);
         return this;
     }
 
-    public String getTitle(){
+    public String getTitle() {
         String title = inputTitle.getAttribute("value");
         logger.info("Actual title: " + title);
         return title;
@@ -33,7 +36,7 @@ public class EditBoardSettingsPopUp extends BasePage {
         return this;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         String description = inputDescription.getAttribute("value");
         logger.info("Actual description: " + description);
         return description;
@@ -42,11 +45,22 @@ public class EditBoardSettingsPopUp extends BasePage {
     public BoardEditorPage closePopUp() {
         inputTitle.sendKeys(Keys.ENTER);
         logger.info("Close board settings");
+        waitForInvisibilityOfElement(editBoardSettingsPopUp);
         return new BoardEditorPage();
     }
 
+    //the wait is necessary because the back-end does not have time to save the changes
+    public BoardEditorPage fillBoardTitleAndDescription(String title, String description) {
+        typeTitle(title)
+                .typeDescription(description);
+        sleep(1000);
+        closePopUp();
+        sleep(1000);
+        waitForInvisibilityOfElement(editBoardSettingsPopUp);
+        return new BoardEditorPage();
+    }
 
-    public Board generateBoard(){
+    public Board generateBoard() {
         return new Board()
                 .setTitle(getTitle())
                 .setDescription(getDescription());

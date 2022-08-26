@@ -3,7 +3,6 @@ package com.miro.ui.pages;
 import com.miro.ui.domain.Board;
 import com.miro.ui.popUp.BoardContextPopUp;
 import com.miro.ui.popUp.EditBoardSettingsPopUp;
-import com.miro.ui.popUp.NewsPopUp;
 import com.miro.ui.popUp.UserProfilePopUp;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -19,11 +18,18 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//button[@data-testid='dashboard__grid__new-board']")
     private WebElement buttonCreateBoard;
 
-    @FindBy(xpath = "//span[@class='notification__text notification__text--main']")
-    private WebElement notificationDelete;
-
     @FindBy(xpath = "//div[@data-testid='user-profile-button__user-icon'][1]")
     private WebElement buttonUserProfile;
+
+    @FindBy(xpath = "//div[@class='user-profile__popup white-popup fade-in-out ng-leave-enter']")
+    private WebElement userProfilePopUp;
+
+    @FindBy(xpath = "//div[@data-testid='template-picker__container']")
+    private WebElement recommendationPopUp;
+
+    @FindBy(xpath = "//div[@data-testid='details_board_action']")
+    private WebElement boardDetails;
+
 
     public HomePage() {
         logger.info("Open home page");
@@ -32,17 +38,15 @@ public class HomePage extends BasePage {
     public UserProfilePopUp clickButtonUserProfile() {
         buttonUserProfile.click();
         logger.info("Click user profile menu");
+        waitForVisibilityOfElement(userProfilePopUp);
         return new UserProfilePopUp();
-    }
-
-    public boolean isNotificationDeleteDisplayed() {
-        return isElementDisplayed(notificationDelete);
     }
 
     public BoardEditorPage clickCreateBoard() {
         waitForElementToBeClickable(buttonCreateBoard);
         buttonCreateBoard.click();
         logger.info("Click create board");
+        waitForVisibilityOfElement(recommendationPopUp);
         return new BoardEditorPage();
     }
 
@@ -54,8 +58,6 @@ public class HomePage extends BasePage {
     }
 
     public boolean findBoardByName(Board board) {
-        //todo ostavit comment
-        sleep(1000);
         List<BoardItem> boardItem = getBoardItems();
         if (!boardItem.isEmpty()) {
             boolean isBoardFind = boardItem.stream()
@@ -74,17 +76,12 @@ public class HomePage extends BasePage {
         return board;
     }
 
-    public HomePage closeNewsPopUp() {
-        getNewsPopUp().clickClosePopUp();
-        logger.info("Close news");
-        return this;
-    }
-
     public HomePage deleteBoard(Board board) {
         clickBoardContext(board)
                 .clickDeleteBoard()
                 .clickSubmitDelete();
         logger.info("Board deleted: " + board.getTitle());
+        waitForElementToBeClickable(buttonCreateBoard);
         return this;
     }
 
@@ -96,14 +93,13 @@ public class HomePage extends BasePage {
     }
 
     private List<BoardItem> getBoardItems() {
-        waitForVisibilityOfElement(itemsBoards.get(0));
+        sleep(2500);
         return itemsBoards.stream()
                 .map(BoardItem::new)
                 .collect(Collectors.toList());
     }
 
     private BoardItem getBoardItem(Board board) {
-        waitForVisibilityOfElement(buttonCreateBoard);
         List<BoardItem> boardItem = getBoardItems();
         if (!boardItem.isEmpty()) {
             return boardItem.stream()
@@ -115,14 +111,11 @@ public class HomePage extends BasePage {
         return null;
     }
 
-    private NewsPopUp getNewsPopUp() {
-        return new NewsPopUp();
-    }
-
     private BoardContextPopUp clickBoardContext(Board board) {
         getBoardItem(board)
                 .clickContext();
         logger.info("Open board context menu: " + board.getTitle());
+        waitForElementToBeClickable(boardDetails);
         return new BoardContextPopUp();
     }
 

@@ -1,36 +1,19 @@
 package com.miro.ui.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.Objects;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Board {
     private String title;
     private String description;
-
-    public Board() {
-    }
-
-    public Board(String name, String description) {
-        this.title = name;
-        this.description = description;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public Board setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Board setDescription(String description) {
-        this.description = description;
-        return this;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+    <test name="TestUI">
+        <classes>
+            <class name="com.miro.ui.HomePageTest"/>
+            <class name="com.miro.ui.LoginPageTest"/>
+        </classes>
+    </test>
+    <test name="TestAPI">
+        <classes>
+            <class name="com.miro.api.CreateBoardTest"/>
+            <class name="com.miro.api.DeleteBoardTest"/>
+        </classes>
+    </test>
+</suite>

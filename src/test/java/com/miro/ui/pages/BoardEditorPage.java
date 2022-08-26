@@ -13,48 +13,41 @@ public class BoardEditorPage extends BasePage {
     @FindBy(xpath = "//div[@data-testid='board-header__logo']")
     private WebElement logo;
 
-    @FindBy(xpath = "//span[@class='notification__text notification__text--main']")
-    private WebElement notificationSave;
+    @FindBy(xpath = "//boards-grid-view")
+    private WebElement boardsGrid;
 
-    public BoardEditorPage(){
+    @FindBy(xpath = "//input[@data-testid='board-info-modal-title']")
+    private WebElement inputTitle;
+
+    @FindBy(xpath = "//div[@data-testid='template-picker__container']")
+    private WebElement recommendationPopUp;
+
+    public BoardEditorPage() {
         logger.info("Open board editor page");
     }
 
-    public BoardEditorPage fillBoardTitleAndDescription(String title, String description) {
-        //todo ostavit comment
-        EditBoardSettingsPopUp editBoardSettingsPopUp = clickBoardTitle()
-                .typeTitle(title)
-                .typeDescription(description);
-        sleep(1000);
-        editBoardSettingsPopUp.closePopUp();
-        sleep(1000);
-        return this;
-    }
-
-    public BoardEditorPage closePopUp() {
+    public BoardEditorPage closeRecommendationPopUp() {
         getBoardRecommendationPopUp().closePopUp();
+        waitForInvisibilityOfElement(recommendationPopUp);
         return this;
     }
 
-    public boolean isNotificationSaveDisplayed() {
-        waitForVisibilityOfElement(notificationSave);
-        return isElementDisplayed(notificationSave);
+    public EditBoardSettingsPopUp clickBoardTitle() {
+        boardTitle.click();
+        logger.info("Open board settings");
+        waitForElementToBeClickable(inputTitle);
+        return new EditBoardSettingsPopUp();
     }
 
     public HomePage clickLogo() {
         logo.click();
         logger.info("Clock logo");
+        waitForVisibilityOfElement(boardsGrid);
         return new HomePage();
     }
 
     private BoardRecommendationPopUp getBoardRecommendationPopUp() {
+        waitForVisibilityOfElement(recommendationPopUp);
         return new BoardRecommendationPopUp();
-    }
-
-    private EditBoardSettingsPopUp clickBoardTitle() {
-        waitForVisibilityOfElement(boardTitle);
-        boardTitle.click();
-        logger.info("Open board settings");
-        return new EditBoardSettingsPopUp();
     }
 }

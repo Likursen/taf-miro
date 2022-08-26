@@ -9,9 +9,13 @@ public class BoardRecommendationPopUp extends BasePage {
     @FindBy(xpath = "//button[@data-testid='template-picker__close-button']")
     private WebElement buttonPopUpClose;
 
+    @FindBy(xpath = "//div[@data-testid='board-header__title']")
+    private WebElement boardTitle;
+
     public BoardEditorPage closePopUp() {
-        closePopUp(buttonPopUpClose);
+        buttonPopUpClose.click();
         logger.info("Close recommendation");
+        waitForElementToBeClickable(boardTitle);
         return new BoardEditorPage();
     }
 }
