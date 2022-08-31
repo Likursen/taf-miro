@@ -9,7 +9,7 @@ import io.qameta.allure.Story;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-@Story("Login page checks")
+@Story(value = "Login page checks")
 public class LoginPageTest extends BaseTest {
 
     @Test(description = "test login with empty credential")

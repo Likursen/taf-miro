@@ -52,12 +52,12 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onStart(ITestContext iTestContext) {
-        logger.info("Tests start: " + iTestContext.getName() + "\n");
+        logger.info("Tests start.\n");
     }
 
     @Override
     public void onFinish(ITestContext iTestContext) {
-        logger.info("Tests finish: " + iTestContext.getName() + "\n");
+        logger.info("Tests finish.\n");
     }
 
     private void saveScreenshot() {
@@ -90,6 +90,14 @@ public class TestListener implements ITestListener {
         return iTestResult
                 .getMethod()
                 .getConstructorOrMethod()
+                .getName();
+    }
+
+    private static String getTestClassName(ITestContext iTestContext) {
+        return iTestContext
+                .getAllTestMethods()[0]
+                .getInstance()
+                .getClass()
                 .getName();
     }
 }

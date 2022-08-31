@@ -8,7 +8,7 @@ import io.qameta.allure.Story;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-@Story("Home page checks")
+@Story(value = "Home page checks")
 public class HomePageTest extends BaseTest {
 
     @Test(description = "Board deleting test", dependsOnMethods = "createBoardTest")

@@ -12,7 +12,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @TestAPI
-@Story("Create board checks")
+@Story(value = "Create board checks")
 public class CreateBoardTest extends BaseTest {
 
     @Test(description = "test create board")

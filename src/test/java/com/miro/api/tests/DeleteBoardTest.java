@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 
 @TestAPI
-@Story("Delete first board checks")
+@Story(value = "Delete first board checks")
 public class DeleteBoardTest extends BaseTest {
 
     @Test(description = "test delete board")
