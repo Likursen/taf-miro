@@ -1,30 +1,22 @@
 package com.miro.utils;
 
+import org.aeonbits.owner.ConfigFactory;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-public class Credentials {
+public class PropertiesLoader {
     private static final File FILE = new File("src/test/resources/credentials.properties");
+    private static final Property properties = ConfigFactory.create(Property.class, loadProperties());
 
-    public static String getToken() {
-        return getFileContent()
-                .getProperty("bearer");
+    public static Property getProperties() {
+        return properties;
     }
 
-    public static String getLogin() {
-        return getFileContent()
-                .getProperty("login");
-    }
-
-    public static String getPassword() {
-        return getFileContent()
-                .getProperty("password");
-    }
-
-    private static Properties getFileContent() {
+    private static Properties loadProperties() {
         Properties property = new Properties();
         FileReader fileReader;
         try {

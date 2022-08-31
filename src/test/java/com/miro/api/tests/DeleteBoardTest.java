@@ -1,7 +1,7 @@
-package com.miro.api;
+package com.miro.api.tests;
 
 import com.miro.utils.UtilsAPI;
-import com.miro.utils.annotation.TestAPI;
+import com.miro.config.annotation.TestAPI;
 import io.qameta.allure.Story;
 import io.restassured.RestAssured;
 import org.testng.Assert;
@@ -20,7 +20,7 @@ public class DeleteBoardTest extends BaseTest {
         RestAssured.given()
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json")
-                .header("Authorization", BEARER)
+                .header("Authorization", TOKEN)
                 .pathParam("board_id", deleteBoardId)
                 .log()
                 .everything()

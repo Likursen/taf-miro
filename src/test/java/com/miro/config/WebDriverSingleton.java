@@ -1,4 +1,4 @@
-package com.miro.ui.webDriver;
+package com.miro.config;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import java.time.Duration;
 
 public class WebDriverSingleton {
-    protected static final Duration WAIT_TIMEOUT_SECONDS = Duration.ofSeconds(10);
+    protected static final Duration WAIT_TIMEOUT_SECONDS = Duration.ofSeconds(20);
     private static WebDriver webDriver;
     private static ChromeOptions options;
 

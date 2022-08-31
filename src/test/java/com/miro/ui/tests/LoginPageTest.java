@@ -1,4 +1,4 @@
-package com.miro.ui;
+package com.miro.ui.tests;
 
 import com.miro.ui.pages.HomePage;
 import com.miro.ui.pages.LoginPage;

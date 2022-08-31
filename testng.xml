@@ -3,14 +3,14 @@
 <suite name="Suite">
     <test name="TestUI">
         <classes>
-            <class name="com.miro.ui.HomePageTest"/>
-            <class name="com.miro.ui.LoginPageTest"/>
+            <class name="com.miro.ui.tests.HomePageTest"/>
+            <class name="com.miro.ui.tests.LoginPageTest"/>
         </classes>
     </test>
     <test name="TestAPI">
         <classes>
-            <class name="com.miro.api.CreateBoardTest"/>
-            <class name="com.miro.api.DeleteBoardTest"/>
+            <class name="com.miro.api.tests.CreateBoardTest"/>
+            <class name="com.miro.api.tests.DeleteBoardTest"/>
         </classes>
     </test>
 </suite>

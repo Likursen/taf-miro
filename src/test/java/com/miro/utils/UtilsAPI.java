@@ -11,7 +11,8 @@ import java.util.stream.Collectors;
 import static io.restassured.RestAssured.given;
 
 public class UtilsAPI {
-    private static final String BEARER = Credentials.getToken();
+    protected static final Property properties = PropertiesLoader.getProperties();
+    private static final String TOKEN = properties.token();
 
     public static List<String> getAllBoardId() {
         return getAllBoards()
@@ -28,7 +29,7 @@ public class UtilsAPI {
     public static BoardPojo getBoardByID(String id) {
         return given()
                 .header("Accept", "application/json")
-                .header("Authorization", BEARER)
+                .header("Authorization", TOKEN)
                 .pathParam("board_id", id)
                 .when()
                 .get("/v2/boards/{board_id}")
@@ -52,7 +53,7 @@ public class UtilsAPI {
     private static BoardsPojo getAllBoards() {
         return given()
                 .header("Accept", "application/json")
-                .header("Authorization", BEARER)
+                .header("Authorization", TOKEN)
                 .when()
                 .get("/v2/boards?limit=50&sort=default")
                 .then()
@@ -63,7 +64,7 @@ public class UtilsAPI {
     private static int getStatusCodeByGettingSpecificBoard(String id) {
         return given()
                 .header("Accept", "application/json")
-                .header("Authorization", BEARER)
+                .header("Authorization", TOKEN)
                 .pathParam("board_id", id)
                 .when()
                 .get("/v2/boards/{board_id}")

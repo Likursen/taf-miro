@@ -1,4 +1,4 @@
-package com.miro.ui;
+package com.miro.ui.tests;
 
 import com.miro.ui.domain.Board;
 import com.miro.ui.pages.HomePage;
@@ -19,7 +19,7 @@ public class HomePageTest extends BaseTest {
         Board copyOfDeletedBoard = homePage.getFirstBoard();
         homePage.deleteBoard(copyOfDeletedBoard);
         boolean isDeletedBoardPresent = homePage.findBoardByName(copyOfDeletedBoard);
-        Assert.assertFalse(isDeletedBoardPresent, "Created board present");
+        Assert.assertFalse(isDeletedBoardPresent, "deleted board present");
     }
 
     @Test(description = "Board creating test")

@@ -1,7 +1,6 @@
-package com.miro.utils;
+package com.miro.config;
 
-import com.miro.ui.webDriver.WebDriverSingleton;
-import com.miro.utils.annotation.TestAPI;
+import com.miro.config.annotation.TestAPI;
 import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;

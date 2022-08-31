@@ -1,10 +1,10 @@
-package com.miro.api;
+package com.miro.api.tests;
 
 import com.miro.api.pojo.BoardPojo;
 import com.miro.api.requests.DefaultCreateBoardPayload;
-import com.miro.utils.UtilsAPI;
 import com.miro.utils.Utils;
-import com.miro.utils.annotation.TestAPI;
+import com.miro.utils.UtilsAPI;
+import com.miro.config.annotation.TestAPI;
 import io.qameta.allure.Story;
 import io.restassured.RestAssured;
 import io.restassured.response.ValidatableResponse;
@@ -25,7 +25,7 @@ public class CreateBoardTest extends BaseTest {
         ValidatableResponse response = RestAssured.given()
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json")
-                .header("Authorization", BEARER)
+                .header("Authorization", TOKEN)
                 .body(createBoardJson)
                 .log()
                 .everything()

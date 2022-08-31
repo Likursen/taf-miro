@@ -1,4 +1,4 @@
-package com.miro.utils;
+package com.miro.config;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

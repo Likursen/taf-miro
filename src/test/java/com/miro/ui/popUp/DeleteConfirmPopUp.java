@@ -10,13 +10,13 @@ public class DeleteConfirmPopUp extends BasePage {
     @FindBy(xpath = "//button[@data-testid='confirmation-modal__submit-button']")
     private WebElement buttonSubmitDelete;
 
-    @FindBy(xpath = "//button[@data-testid='dashboard__grid__new-board']")
-    private WebElement buttonCreateBoard;
+    @FindBy(xpath = "//div[@data-testid='dialog-container-content']")
+    private WebElement confirmDeletePopUp;
 
     public HomePage clickSubmitDelete() {
         mouseOverAndClick(buttonSubmitDelete);
         logger.info("Click delete submit");
-        waitForElementToBeClickable(buttonCreateBoard);
+        waitForInvisibilityOfElement(confirmDeletePopUp);
         return new HomePage();
     }
 }

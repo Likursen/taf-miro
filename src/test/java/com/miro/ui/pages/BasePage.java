@@ -1,8 +1,8 @@
 package com.miro.ui.pages;
 
 
-import com.miro.ui.webDriver.WebDriverSingleton;
-import com.miro.utils.RootLogger;
+import com.miro.config.RootLogger;
+import com.miro.config.WebDriverSingleton;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.SearchContext;
@@ -10,7 +10,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -18,7 +17,7 @@ import java.time.Duration;
 
 public abstract class BasePage {
     protected static final Logger logger = RootLogger.getRootLogger();
-    protected static final Duration WAIT_TIMEOUT_SECONDS = Duration.ofSeconds(10);
+    protected static final Duration WAIT_TIMEOUT_SECONDS = Duration.ofSeconds(60);
     protected static final CharSequence[] CHAR_SEQUENCES_DELETE_ALL = {Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE};
     protected WebDriver webDriver = WebDriverSingleton.getWebDriver();
 
@@ -27,7 +26,7 @@ public abstract class BasePage {
     }
 
     protected BasePage(SearchContext context) {
-        PageFactory.initElements(new DefaultElementLocatorFactory(context), this);
+        PageFactory.initElements(context, this);
     }
 
     protected void clearAndTypeToField(WebElement field, String text) {

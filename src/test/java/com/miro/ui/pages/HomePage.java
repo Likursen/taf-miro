@@ -24,18 +24,19 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//div[@class='user-profile__popup white-popup fade-in-out ng-leave-enter']")
     private WebElement userProfilePopUp;
 
-    @FindBy(xpath = "//div[@data-testid='template-picker__container']")
-    private WebElement recommendationPopUp;
+    @FindBy(xpath = "//button[@data-testid='template-picker__close-button']")
+    private WebElement buttonCloseRecommendationPopUp;
 
     @FindBy(xpath = "//div[@data-testid='details_board_action']")
     private WebElement boardDetails;
-
 
     public HomePage() {
         logger.info("Open home page");
     }
 
     public UserProfilePopUp clickButtonUserProfile() {
+        waitForVisibilityOfElement(buttonUserProfile);
+        waitForElementToBeClickable(buttonUserProfile);
         buttonUserProfile.click();
         logger.info("Click user profile menu");
         waitForVisibilityOfElement(userProfilePopUp);
@@ -44,9 +45,11 @@ public class HomePage extends BasePage {
 
     public BoardEditorPage clickCreateBoard() {
         waitForElementToBeClickable(buttonCreateBoard);
+        waitForVisibilityOfElement(buttonCreateBoard);
+        sleep(1000);
         buttonCreateBoard.click();
         logger.info("Click create board");
-        waitForVisibilityOfElement(recommendationPopUp);
+        waitForElementToBeClickable(buttonCloseRecommendationPopUp);
         return new BoardEditorPage();
     }
 
